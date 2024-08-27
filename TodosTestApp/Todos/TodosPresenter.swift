@@ -6,6 +6,8 @@
 //
 
 protocol TodosPresenterProtocol: AnyObject {
+    func viewDidLoad()
+    func todosDataDidLoad(todos: TodosSectionsModel)
 }
 
 class TodosPresenter {
@@ -20,4 +22,11 @@ class TodosPresenter {
 }
 
 extension TodosPresenter: TodosPresenterProtocol {
+    func viewDidLoad() {
+        interactor.loadData()
+    }
+    
+    func todosDataDidLoad(todos: TodosSectionsModel) {
+        view?.prepareDataForCells(todos: todos)
+    }
 }

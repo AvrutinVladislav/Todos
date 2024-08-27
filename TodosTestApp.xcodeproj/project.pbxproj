@@ -23,6 +23,13 @@
 		57D0FFC12C7CCBA00058FD67 /* TodosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFC02C7CCBA00058FD67 /* TodosModel.swift */; };
 		57D0FFC42C7CCE520058FD67 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFC32C7CCE520058FD67 /* View+Extension.swift */; };
 		57D0FFC72C7CCEEF0058FD67 /* TodosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFC62C7CCEEF0058FD67 /* TodosTableViewCell.swift */; };
+		57D0FFCE2C7E13850058FD67 /* CreateOrEditTodosModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFC92C7E13850058FD67 /* CreateOrEditTodosModuleBuilder.swift */; };
+		57D0FFCF2C7E13850058FD67 /* CreateOrEditTodosPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFCA2C7E13850058FD67 /* CreateOrEditTodosPresenter.swift */; };
+		57D0FFD02C7E13850058FD67 /* CreateOrEditTodosRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFCB2C7E13850058FD67 /* CreateOrEditTodosRouter.swift */; };
+		57D0FFD12C7E13850058FD67 /* CreateOrEditTodosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFCC2C7E13850058FD67 /* CreateOrEditTodosViewController.swift */; };
+		57D0FFD22C7E13850058FD67 /* CreateOrEditTodosInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFCD2C7E13850058FD67 /* CreateOrEditTodosInteractor.swift */; };
+		57D0FFD42C7E15810058FD67 /* TodosSectionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFD32C7E15810058FD67 /* TodosSectionsModel.swift */; };
+		57D0FFD92C7E17550058FD67 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFD82C7E17550058FD67 /* NetworkService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +70,13 @@
 		57D0FFC02C7CCBA00058FD67 /* TodosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosModel.swift; sourceTree = "<group>"; };
 		57D0FFC32C7CCE520058FD67 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		57D0FFC62C7CCEEF0058FD67 /* TodosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTableViewCell.swift; sourceTree = "<group>"; };
+		57D0FFC92C7E13850058FD67 /* CreateOrEditTodosModuleBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrEditTodosModuleBuilder.swift; sourceTree = "<group>"; };
+		57D0FFCA2C7E13850058FD67 /* CreateOrEditTodosPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrEditTodosPresenter.swift; sourceTree = "<group>"; };
+		57D0FFCB2C7E13850058FD67 /* CreateOrEditTodosRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrEditTodosRouter.swift; sourceTree = "<group>"; };
+		57D0FFCC2C7E13850058FD67 /* CreateOrEditTodosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrEditTodosViewController.swift; sourceTree = "<group>"; };
+		57D0FFCD2C7E13850058FD67 /* CreateOrEditTodosInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrEditTodosInteractor.swift; sourceTree = "<group>"; };
+		57D0FFD32C7E15810058FD67 /* TodosSectionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosSectionsModel.swift; sourceTree = "<group>"; };
+		57D0FFD82C7E17550058FD67 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,15 +127,14 @@
 		57D0FF802C7CC92D0058FD67 /* TodosTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				57D0FFD72C7E17000058FD67 /* Business Logic */,
+				57D0FFC82C7E13450058FD67 /* CreateOrEditTodos */,
 				57D0FFC22C7CCE3C0058FD67 /* Utils */,
-				57D0FFBF2C7CCB850058FD67 /* Models */,
+				57D0FFBF2C7CCB850058FD67 /* Entity */,
 				57D0FFB42C7CC9CA0058FD67 /* Todos */,
-				57D0FF812C7CC92D0058FD67 /* AppDelegate.swift */,
-				57D0FF832C7CC92D0058FD67 /* SceneDelegate.swift */,
-				57D0FF8D2C7CC92E0058FD67 /* Assets.xcassets */,
-				57D0FF8F2C7CC92E0058FD67 /* LaunchScreen.storyboard */,
-				57D0FF922C7CC92E0058FD67 /* Info.plist */,
 				57D0FF8A2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld */,
+				57D0FFD62C7E15EB0058FD67 /* App */,
+				57D0FFD52C7E15DF0058FD67 /* Resources */,
 			);
 			path = TodosTestApp;
 			sourceTree = "<group>";
@@ -146,8 +159,8 @@
 		57D0FFB42C7CC9CA0058FD67 /* Todos */ = {
 			isa = PBXGroup;
 			children = (
-				57D0FFC52C7CCED60058FD67 /* ViewController */,
 				57D0FFB52C7CCA150058FD67 /* TodosModuleBuilder.swift */,
+				57D0FFC52C7CCED60058FD67 /* ViewController */,
 				57D0FFB62C7CCA150058FD67 /* TodosPresenter.swift */,
 				57D0FFB72C7CCA150058FD67 /* TodosRouter.swift */,
 				57D0FFB92C7CCA150058FD67 /* TodosInteractor.swift */,
@@ -155,12 +168,13 @@
 			path = Todos;
 			sourceTree = "<group>";
 		};
-		57D0FFBF2C7CCB850058FD67 /* Models */ = {
+		57D0FFBF2C7CCB850058FD67 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
 				57D0FFC02C7CCBA00058FD67 /* TodosModel.swift */,
+				57D0FFD32C7E15810058FD67 /* TodosSectionsModel.swift */,
 			);
-			path = Models;
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		57D0FFC22C7CCE3C0058FD67 /* Utils */ = {
@@ -174,10 +188,57 @@
 		57D0FFC52C7CCED60058FD67 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				57D0FFDA2C7E1D990058FD67 /* TodosCell */,
 				57D0FFB82C7CCA150058FD67 /* TodosViewController.swift */,
-				57D0FFC62C7CCEEF0058FD67 /* TodosTableViewCell.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		57D0FFC82C7E13450058FD67 /* CreateOrEditTodos */ = {
+			isa = PBXGroup;
+			children = (
+				57D0FFC92C7E13850058FD67 /* CreateOrEditTodosModuleBuilder.swift */,
+				57D0FFCA2C7E13850058FD67 /* CreateOrEditTodosPresenter.swift */,
+				57D0FFCB2C7E13850058FD67 /* CreateOrEditTodosRouter.swift */,
+				57D0FFCC2C7E13850058FD67 /* CreateOrEditTodosViewController.swift */,
+				57D0FFCD2C7E13850058FD67 /* CreateOrEditTodosInteractor.swift */,
+			);
+			path = CreateOrEditTodos;
+			sourceTree = "<group>";
+		};
+		57D0FFD52C7E15DF0058FD67 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				57D0FF8D2C7CC92E0058FD67 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		57D0FFD62C7E15EB0058FD67 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				57D0FF812C7CC92D0058FD67 /* AppDelegate.swift */,
+				57D0FF832C7CC92D0058FD67 /* SceneDelegate.swift */,
+				57D0FF8F2C7CC92E0058FD67 /* LaunchScreen.storyboard */,
+				57D0FF922C7CC92E0058FD67 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		57D0FFD72C7E17000058FD67 /* Business Logic */ = {
+			isa = PBXGroup;
+			children = (
+				57D0FFD82C7E17550058FD67 /* NetworkService.swift */,
+			);
+			path = "Business Logic";
+			sourceTree = "<group>";
+		};
+		57D0FFDA2C7E1D990058FD67 /* TodosCell */ = {
+			isa = PBXGroup;
+			children = (
+				57D0FFC62C7CCEEF0058FD67 /* TodosTableViewCell.swift */,
+			);
+			path = TodosCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,12 +374,19 @@
 				57D0FF822C7CC92D0058FD67 /* AppDelegate.swift in Sources */,
 				57D0FF842C7CC92D0058FD67 /* SceneDelegate.swift in Sources */,
 				57D0FFC42C7CCE520058FD67 /* View+Extension.swift in Sources */,
+				57D0FFCE2C7E13850058FD67 /* CreateOrEditTodosModuleBuilder.swift in Sources */,
+				57D0FFD92C7E17550058FD67 /* NetworkService.swift in Sources */,
+				57D0FFCF2C7E13850058FD67 /* CreateOrEditTodosPresenter.swift in Sources */,
+				57D0FFD02C7E13850058FD67 /* CreateOrEditTodosRouter.swift in Sources */,
+				57D0FFD12C7E13850058FD67 /* CreateOrEditTodosViewController.swift in Sources */,
+				57D0FFD22C7E13850058FD67 /* CreateOrEditTodosInteractor.swift in Sources */,
 				57D0FF8C2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld in Sources */,
 				57D0FFBA2C7CCA150058FD67 /* TodosModuleBuilder.swift in Sources */,
 				57D0FFC72C7CCEEF0058FD67 /* TodosTableViewCell.swift in Sources */,
 				57D0FFBB2C7CCA150058FD67 /* TodosPresenter.swift in Sources */,
 				57D0FFBC2C7CCA150058FD67 /* TodosRouter.swift in Sources */,
 				57D0FFBD2C7CCA150058FD67 /* TodosViewController.swift in Sources */,
+				57D0FFD42C7E15810058FD67 /* TodosSectionsModel.swift in Sources */,
 				57D0FFC12C7CCBA00058FD67 /* TodosModel.swift in Sources */,
 				57D0FFBE2C7CCA150058FD67 /* TodosInteractor.swift in Sources */,
 			);
@@ -495,7 +563,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TodosTestApp/Info.plist;
+				INFOPLIST_FILE = TodosTestApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -521,7 +589,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TodosTestApp/Info.plist;
+				INFOPLIST_FILE = TodosTestApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
