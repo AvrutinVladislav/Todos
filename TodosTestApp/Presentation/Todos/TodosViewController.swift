@@ -32,10 +32,10 @@ class TodosViewController: UIViewController {
 // MARK: - Private functions
 private extension TodosViewController {
     func setupUI() {
-        todoTableView.translatesAutoresizingMaskIntoConstraints = false
         todoTableView.register(TodosTableViewCell.self, forCellReuseIdentifier: TodosTableViewCell.identifier)
         todoTableView.delegate = self
         todoTableView.dataSource = self
+        todoTableView.separatorStyle = .none
         
         addTodoButton.addTarget(self, action: #selector(addTodoButtonDidTap), for: .touchUpInside)
         addTodoButton.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -43,7 +43,6 @@ private extension TodosViewController {
         addTodoButton.contentHorizontalAlignment = .fill
         addTodoButton.frame = .init(x: 0, y: 0, width: 35, height: 35)
         addTodoButton.tintColor = .white
-        addTodoButton.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(addTodoButton)
         view.addSubview(todoTableView)
@@ -63,12 +62,19 @@ private extension TodosViewController {
     }
     
     @objc func addTodoButtonDidTap() {
-        
+        navigationController?.pushViewController(CreateOrEditTodosModuleBuilder.build(), animated: true)
     }
+    
+    func reloadTableView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.todoTableView.reloadData()
+        }
+    }
+    
 }
 
-//MARK: - TableViewDelegate & TableViewDataSource
-extension TodosViewController: UITableViewDelegate, UITableViewDataSource {
+//MARK: - TableViewDataSource
+extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todosLoadList.count
     }
@@ -81,13 +87,20 @@ extension TodosViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+//MARK: - TableViewDelegate
+extension TodosViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter?.completeButtonDidTap(todo: &todosLoadList[indexPath.row])
+        reloadTableView()
+    }
+}
+
+
 // MARK: - TodosViewProtocol
 extension TodosViewController: TodosViewProtocol {
     func prepareDataForCells(todos: TodosSectionsModel) {
         todosLoadList = todos.todos
-        DispatchQueue.main.async { [weak self] in 
-            self?.todoTableView.reloadData()
-        }
+        reloadTableView()
     }
     
 }

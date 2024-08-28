@@ -30,6 +30,11 @@
 		57D0FFD22C7E13850058FD67 /* CreateOrEditTodosInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFCD2C7E13850058FD67 /* CreateOrEditTodosInteractor.swift */; };
 		57D0FFD42C7E15810058FD67 /* TodosSectionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFD32C7E15810058FD67 /* TodosSectionsModel.swift */; };
 		57D0FFD92C7E17550058FD67 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFD82C7E17550058FD67 /* NetworkService.swift */; };
+		57D0FFE42C7F6B180058FD67 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFE32C7F6B180058FD67 /* CoreDataManager.swift */; };
+		57D0FFF12C7F6E9F0058FD67 /* TodosItemList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFED2C7F6E9F0058FD67 /* TodosItemList+CoreDataClass.swift */; };
+		57D0FFF22C7F6E9F0058FD67 /* TodosItemList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFEE2C7F6E9F0058FD67 /* TodosItemList+CoreDataProperties.swift */; };
+		57D0FFF32C7F6E9F0058FD67 /* TodoItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFEF2C7F6E9F0058FD67 /* TodoItem+CoreDataClass.swift */; };
+		57D0FFF42C7F6E9F0058FD67 /* TodoItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFF02C7F6E9F0058FD67 /* TodoItem+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +82,11 @@
 		57D0FFCD2C7E13850058FD67 /* CreateOrEditTodosInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateOrEditTodosInteractor.swift; sourceTree = "<group>"; };
 		57D0FFD32C7E15810058FD67 /* TodosSectionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosSectionsModel.swift; sourceTree = "<group>"; };
 		57D0FFD82C7E17550058FD67 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		57D0FFE32C7F6B180058FD67 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		57D0FFED2C7F6E9F0058FD67 /* TodosItemList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodosItemList+CoreDataClass.swift"; sourceTree = "<group>"; };
+		57D0FFEE2C7F6E9F0058FD67 /* TodosItemList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodosItemList+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		57D0FFEF2C7F6E9F0058FD67 /* TodoItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		57D0FFF02C7F6E9F0058FD67 /* TodoItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,13 +137,11 @@
 		57D0FF802C7CC92D0058FD67 /* TodosTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				57D0FFD72C7E17000058FD67 /* Business Logic */,
-				57D0FFC82C7E13450058FD67 /* CreateOrEditTodos */,
-				57D0FFC22C7CCE3C0058FD67 /* Utils */,
-				57D0FFBF2C7CCB850058FD67 /* Entity */,
-				57D0FFB42C7CC9CA0058FD67 /* Todos */,
-				57D0FF8A2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld */,
 				57D0FFD62C7E15EB0058FD67 /* App */,
+				57D0FFD72C7E17000058FD67 /* Business Logic */,
+				57D0FFDD2C7F51760058FD67 /* Presentation */,
+				57D0FFBF2C7CCB850058FD67 /* Entity */,
+				57D0FFC22C7CCE3C0058FD67 /* Utils */,
 				57D0FFD52C7E15DF0058FD67 /* Resources */,
 			);
 			path = TodosTestApp;
@@ -159,8 +167,9 @@
 		57D0FFB42C7CC9CA0058FD67 /* Todos */ = {
 			isa = PBXGroup;
 			children = (
+				57D0FFDA2C7E1D990058FD67 /* TodosCell */,
 				57D0FFB52C7CCA150058FD67 /* TodosModuleBuilder.swift */,
-				57D0FFC52C7CCED60058FD67 /* ViewController */,
+				57D0FFB82C7CCA150058FD67 /* TodosViewController.swift */,
 				57D0FFB62C7CCA150058FD67 /* TodosPresenter.swift */,
 				57D0FFB72C7CCA150058FD67 /* TodosRouter.swift */,
 				57D0FFB92C7CCA150058FD67 /* TodosInteractor.swift */,
@@ -183,15 +192,6 @@
 				57D0FFC32C7CCE520058FD67 /* View+Extension.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		57D0FFC52C7CCED60058FD67 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				57D0FFDA2C7E1D990058FD67 /* TodosCell */,
-				57D0FFB82C7CCA150058FD67 /* TodosViewController.swift */,
-			);
-			path = ViewController;
 			sourceTree = "<group>";
 		};
 		57D0FFC82C7E13450058FD67 /* CreateOrEditTodos */ = {
@@ -228,7 +228,10 @@
 		57D0FFD72C7E17000058FD67 /* Business Logic */ = {
 			isa = PBXGroup;
 			children = (
+				57D0FFE22C7F6A620058FD67 /* TodosItem */,
+				57D0FF8A2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld */,
 				57D0FFD82C7E17550058FD67 /* NetworkService.swift */,
+				57D0FFE32C7F6B180058FD67 /* CoreDataManager.swift */,
 			);
 			path = "Business Logic";
 			sourceTree = "<group>";
@@ -239,6 +242,26 @@
 				57D0FFC62C7CCEEF0058FD67 /* TodosTableViewCell.swift */,
 			);
 			path = TodosCell;
+			sourceTree = "<group>";
+		};
+		57D0FFDD2C7F51760058FD67 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				57D0FFB42C7CC9CA0058FD67 /* Todos */,
+				57D0FFC82C7E13450058FD67 /* CreateOrEditTodos */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		57D0FFE22C7F6A620058FD67 /* TodosItem */ = {
+			isa = PBXGroup;
+			children = (
+				57D0FFED2C7F6E9F0058FD67 /* TodosItemList+CoreDataClass.swift */,
+				57D0FFEE2C7F6E9F0058FD67 /* TodosItemList+CoreDataProperties.swift */,
+				57D0FFEF2C7F6E9F0058FD67 /* TodoItem+CoreDataClass.swift */,
+				57D0FFF02C7F6E9F0058FD67 /* TodoItem+CoreDataProperties.swift */,
+			);
+			path = TodosItem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +405,11 @@
 				57D0FFD22C7E13850058FD67 /* CreateOrEditTodosInteractor.swift in Sources */,
 				57D0FF8C2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld in Sources */,
 				57D0FFBA2C7CCA150058FD67 /* TodosModuleBuilder.swift in Sources */,
+				57D0FFE42C7F6B180058FD67 /* CoreDataManager.swift in Sources */,
+				57D0FFF12C7F6E9F0058FD67 /* TodosItemList+CoreDataClass.swift in Sources */,
+				57D0FFF22C7F6E9F0058FD67 /* TodosItemList+CoreDataProperties.swift in Sources */,
+				57D0FFF32C7F6E9F0058FD67 /* TodoItem+CoreDataClass.swift in Sources */,
+				57D0FFF42C7F6E9F0058FD67 /* TodoItem+CoreDataProperties.swift in Sources */,
 				57D0FFC72C7CCEEF0058FD67 /* TodosTableViewCell.swift in Sources */,
 				57D0FFBB2C7CCA150058FD67 /* TodosPresenter.swift in Sources */,
 				57D0FFBC2C7CCA150058FD67 /* TodosRouter.swift in Sources */,

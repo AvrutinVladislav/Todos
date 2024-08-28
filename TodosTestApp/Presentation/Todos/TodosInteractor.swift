@@ -7,6 +7,7 @@
 
 protocol TodosInteractorProtocol: AnyObject {
     func loadData()
+    func cdFetchData()
 }
 
 final class TodosInteractor {
@@ -14,9 +15,11 @@ final class TodosInteractor {
     weak var presenter: TodosPresenterProtocol?
     
     private let networkService: NetworkService
+    private let coreDataManager: CoreDataManager
     
-    init(networkService: NetworkService) {
+    init(networkService: NetworkService, coreDataManager: CoreDataManager) {
         self.networkService = networkService
+        self.coreDataManager = coreDataManager
     }
 }
 
@@ -31,4 +34,14 @@ extension TodosInteractor: TodosInteractorProtocol {
             }
         }
     }
+    
+    func cdFetchData() {
+        switch coreDataManager.fetchData() {
+        case .success(let todos):
+            print(todos)
+        case .failure(_):
+            print("Error to fetch data from Core Data")
+        }
+    }
+    
 }

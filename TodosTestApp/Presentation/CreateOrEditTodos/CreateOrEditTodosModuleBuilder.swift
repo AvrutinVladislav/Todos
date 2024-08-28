@@ -12,8 +12,7 @@ class CreateOrEditTodosModuleBuilder {
         let interactor = CreateOrEditTodosInteractor()
         let router = CreateOrEditTodosRouter()
         let presenter = CreateOrEditTodosPresenter(interactor: interactor, router: router)
-        let storyboard = UIStoryboard(name: "CreateOrEditTodos", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "CreateOrEditTodos") as! CreateOrEditTodosViewController
+        let viewController = CreateOrEditTodosViewController()
         presenter.view  = viewController
         viewController.presenter = presenter
         interactor.presenter = presenter

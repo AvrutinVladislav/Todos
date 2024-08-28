@@ -8,6 +8,7 @@
 protocol TodosPresenterProtocol: AnyObject {
     func viewDidLoad()
     func todosDataDidLoad(todos: TodosSectionsModel)
+    func completeButtonDidTap(todo: inout Todo)
 }
 
 class TodosPresenter {
@@ -28,5 +29,9 @@ extension TodosPresenter: TodosPresenterProtocol {
     
     func todosDataDidLoad(todos: TodosSectionsModel) {
         view?.prepareDataForCells(todos: todos)
+    }
+    
+    func completeButtonDidTap(todo: inout Todo) {
+        todo.isCompleted.toggle()
     }
 }

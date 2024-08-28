@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23G93" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="TodoItem" representedClassName=".TodoItem" syncable="YES">
+        <attribute name="complited" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="todo" optional="YES" attributeType="String"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="todosList" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="TodosItemList" inverseName="todos" inverseEntity="TodosItemList"/>
+    </entity>
+    <entity name="TodosItemList" representedClassName=".TodosItemList" syncable="YES">
+        <relationship name="todos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TodoItem" inverseName="todosList" inverseEntity="TodoItem"/>
+    </entity>
+</model>

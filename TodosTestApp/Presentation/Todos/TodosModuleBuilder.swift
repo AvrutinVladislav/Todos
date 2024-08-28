@@ -10,7 +10,8 @@ import UIKit
 class TodosModuleBuilder {
     static func build() -> TodosViewController {
         let networkService = NetworkServiceImp()
-        let interactor = TodosInteractor(networkService: networkService)
+        let coreDataManager = CoreDataManagerImp()
+        let interactor = TodosInteractor(networkService: networkService, coreDataManager: coreDataManager)
         let router = TodosRouter()
         let presenter = TodosPresenter(interactor: interactor, router: router)
         let viewController = TodosViewController()

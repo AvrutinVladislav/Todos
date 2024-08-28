@@ -6,6 +6,8 @@
 //
 
 protocol CreateOrEditTodosPresenterProtocol: AnyObject {
+    func backButtonDidTap()
+    func saveButtonDidTap()
 }
 
 class CreateOrEditTodosPresenter {
@@ -20,4 +22,18 @@ class CreateOrEditTodosPresenter {
 }
 
 extension CreateOrEditTodosPresenter: CreateOrEditTodosPresenterProtocol {
+    func backButtonDidTap() {
+        router.popViewController()
+    }
+    
+    func saveButtonDidTap() {
+        
+    }
+}
+
+extension CreateOrEditTodosPresenter {
+    enum CreateOrEditTodosState {
+        case create
+        case edit
+    }
 }

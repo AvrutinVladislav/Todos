@@ -6,8 +6,13 @@
 //
 
 protocol CreateOrEditTodosRouterProtocol {
+    func popViewController()
 }
 
 class CreateOrEditTodosRouter: CreateOrEditTodosRouterProtocol {
     weak var viewController: CreateOrEditTodosViewController?
+    
+    func popViewController() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
 }
