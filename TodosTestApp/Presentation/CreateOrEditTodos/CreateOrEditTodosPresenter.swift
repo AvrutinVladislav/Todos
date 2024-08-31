@@ -7,13 +7,20 @@
 
 protocol CreateOrEditTodosPresenterProtocol: AnyObject {
     func backButtonDidTap()
-    func saveButtonDidTap()
+    func saveButtonDidTap(text: String)
+    func callBackId(id: Int64)
+}
+
+enum CreateOrEditTodosState {
+    case create
+    case edit
 }
 
 class CreateOrEditTodosPresenter {
     weak var view: CreateOrEditTodosViewProtocol?
     var router: CreateOrEditTodosRouterProtocol
     var interactor: CreateOrEditTodosInteractorProtocol
+    var state = CreateOrEditTodosState.create
 
     init(interactor: CreateOrEditTodosInteractorProtocol, router: CreateOrEditTodosRouterProtocol) {
         self.interactor = interactor
@@ -26,14 +33,17 @@ extension CreateOrEditTodosPresenter: CreateOrEditTodosPresenterProtocol {
         router.popViewController()
     }
     
-    func saveButtonDidTap() {
-        
+    func saveButtonDidTap(text: String) {
+        switch state {
+        case .create:
+            interactor.saveNewTodoToDB(text: text, state: state)
+        case .edit:
+            break
+        }
     }
-}
-
-extension CreateOrEditTodosPresenter {
-    enum CreateOrEditTodosState {
-        case create
-        case edit
+    
+    func callBackId(id: Int64) {
+        view?.onFinished()
     }
+    
 }

@@ -8,7 +8,8 @@
 import UIKit
 
 protocol TodosViewProtocol: AnyObject {
-    func prepareDataForCells(todos: TodosSectionsModel)
+    func prepareDataForCells(todos: [TodoCellData])
+    func reloadTableView()
 }
 
 class TodosViewController: UIViewController {
@@ -19,7 +20,7 @@ class TodosViewController: UIViewController {
     private let addTodoButton = UIButton()
     private let todoTableView = UITableView()
     
-    private var todosLoadList: [Todo] = []
+    private var todosLoadList: [TodoCellData] = []
 
     // MARK: - View lifecycle
     override func viewDidLoad() {
@@ -65,12 +66,6 @@ private extension TodosViewController {
         navigationController?.pushViewController(CreateOrEditTodosModuleBuilder.build(), animated: true)
     }
     
-    func reloadTableView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.todoTableView.reloadData()
-        }
-    }
-    
 }
 
 //MARK: - TableViewDataSource
@@ -82,6 +77,7 @@ extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TodosTableViewCell.identifier, for: indexPath) as? TodosTableViewCell else { return UITableViewCell() }
         cell.configureCell(model: todosLoadList[indexPath.row])
+        cell.presenter = presenter
         return cell
     }
     
@@ -90,17 +86,21 @@ extension TodosViewController: UITableViewDataSource {
 //MARK: - TableViewDelegate
 extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter?.completeButtonDidTap(todo: &todosLoadList[indexPath.row])
-        reloadTableView()
+
     }
 }
 
 
 // MARK: - TodosViewProtocol
 extension TodosViewController: TodosViewProtocol {
-    func prepareDataForCells(todos: TodosSectionsModel) {
-        todosLoadList = todos.todos
+    func prepareDataForCells(todos: [TodoCellData]) {
+        todosLoadList = todos
         reloadTableView()
     }
     
+    func reloadTableView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.todoTableView.reloadData()
+        }
+    }
 }

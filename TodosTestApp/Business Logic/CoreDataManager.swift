@@ -11,13 +11,13 @@ import CoreData
 protocol CoreDataManager {
     func fetchData() -> Result<[TodoItem], Error>
     func fetchData(predicate: NSPredicate) -> Result<TodoItem, Error>
-    func addTodoFromJson(id: Int16, text: String, date: Date) -> Result<Void, Error>
-    func updateTodo(id: Int16, text: String, date: Date) -> Result<Void, Error>
+    func addTodoFromJson(id: Int64, text: String, isCompleted: Bool) -> Result<Void, Error>
+    func updateTodo(todo: TodoCellData) -> Result<Void, Error>
     func deleteTodo(predicate: NSPredicate) -> Result<Void, Error>
-    func createTodo(text: String, id: Int16) -> Result<TodoItem, Error>
+    func createTodo(text: String, id: Int64) -> Result<TodoItem, Error>
 }
 
-final class CoreDataManagerImp: CoreDataManager {
+public final class CoreDataManagerImp: CoreDataManager {
 
     init(){}
     
@@ -46,11 +46,11 @@ final class CoreDataManagerImp: CoreDataManager {
         }
     }
     
-    func addTodoFromJson(id: Int16, text: String, date: Date) -> Result<Void, Error> {
+    func addTodoFromJson(id: Int64, text: String, isCompleted: Bool) -> Result<Void, Error> {
         let context = persistentContainer.viewContext
         let newTodo = TodoItem(context: context)
         newTodo.id = id
-        newTodo.complited = false
+        newTodo.isCompleted = isCompleted
         newTodo.todo = text
         saveContext()
         do {
@@ -61,17 +61,19 @@ final class CoreDataManagerImp: CoreDataManager {
         }
     }
     
-    func updateTodo(id: Int16, text: String, date: Date) -> Result<Void, Error> {
-        
+    func updateTodo(todo: TodoCellData) -> Result<Void, Error> {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id = %lld", todo.todo.todoId)
         saveContext()
         do {
             if let result = try context.fetch(fetchRequest).first {
-                result.todo = text
+                result.todo = todo.todo.todo
+                result.isCompleted = todo.todo.isCompleted
+                result.date = todo.date
                 try context.save()
             }
+            saveContext()
             return .success(())
         } catch {
             return .failure(error)
@@ -79,7 +81,6 @@ final class CoreDataManagerImp: CoreDataManager {
     }
     
     func deleteTodo(predicate: NSPredicate) -> Result<Void, Error> {
-        
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TodoItem> = TodoItem.fetchRequest()
         fetchRequest.predicate = predicate
@@ -96,8 +97,7 @@ final class CoreDataManagerImp: CoreDataManager {
         return .success(())
     }
 
-    func createTodo(text: String, id: Int16) -> Result<TodoItem, Error>  {
-        
+    func createTodo(text: String, id: Int64) -> Result<TodoItem, Error>  {
         let context = persistentContainer.viewContext
         let todo = TodoItem(context: context)
         todo.todo = text
@@ -115,7 +115,7 @@ final class CoreDataManagerImp: CoreDataManager {
     
     lazy var persistentContainer: NSPersistentContainer = {
         
-        let container = NSPersistentContainer(name: "TodosItemList")
+        let container = NSPersistentContainer(name: "TodosTestApp")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 

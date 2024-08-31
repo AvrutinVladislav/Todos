@@ -9,6 +9,8 @@ import UIKit
 
 protocol CreateOrEditTodosViewProtocol: AnyObject {
     func showAlert(title: String, message: String, firstButtonTitle: String, secondButtonTitle: String)
+    func onFinished()
+    func toDoId(id: Int64)
 }
 
 class CreateOrEditTodosViewController: UIViewController {
@@ -16,6 +18,8 @@ class CreateOrEditTodosViewController: UIViewController {
     private let textView = UITextView()
     private  let saveButton = UIButton()
     private  let backButton = UIButton()
+    var onFinish: ((_ id: Int64) -> Void)?
+    var todoId: Int64?
     
     // MARK: - Public properties
     var presenter: CreateOrEditTodosPresenterProtocol?
@@ -38,6 +42,7 @@ private extension CreateOrEditTodosViewController {
         
         saveButton.setTitle("Save", for: .normal)
         saveButton.tintColor = .white
+        saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         
         backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         backButton.setTitle("Back", for: .normal)
@@ -78,7 +83,7 @@ private extension CreateOrEditTodosViewController {
     }
     
     @objc func saveButtonDidTap() {
-        
+        presenter?.saveButtonDidTap(text: textView.text)
     }
 }
 
@@ -94,5 +99,15 @@ extension CreateOrEditTodosViewController: CreateOrEditTodosViewProtocol {
             self?.saveButtonDidTap()
         }))
         self.present(alert, animated: true)
+    }
+    
+    func onFinished() {
+        if let todoId = todoId {
+            onFinish?(todoId)
+        }
+    }
+    
+    func toDoId(id: Int64) {
+        todoId = id
     }
 }

@@ -9,7 +9,8 @@ import UIKit
 
 class CreateOrEditTodosModuleBuilder {
     static func build() -> CreateOrEditTodosViewController {
-        let interactor = CreateOrEditTodosInteractor()
+        let coreDataManager = CoreDataManagerImp()
+        let interactor = CreateOrEditTodosInteractor(coreDataManager: coreDataManager)
         let router = CreateOrEditTodosRouter()
         let presenter = CreateOrEditTodosPresenter(interactor: interactor, router: router)
         let viewController = CreateOrEditTodosViewController()
