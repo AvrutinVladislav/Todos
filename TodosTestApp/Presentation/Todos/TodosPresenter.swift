@@ -17,7 +17,7 @@ protocol TodosPresenterProtocol: AnyObject {
     func deleteTodo(todo: TodoCellData)
 }
 
-class TodosPresenter {
+final class TodosPresenter {
     weak var view: TodosViewProtocol?
     var router: TodosRouterProtocol
     var interactor: TodosInteractorProtocol

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TodosModuleBuilder {
+final class TodosModuleBuilder {
     static func build() -> TodosViewController {
         let networkService = NetworkServiceImp()
         let coreDataManager = CoreDataManagerImp()

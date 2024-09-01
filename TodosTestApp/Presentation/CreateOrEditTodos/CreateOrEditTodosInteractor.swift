@@ -12,7 +12,7 @@ protocol CreateOrEditTodosInteractorProtocol: AnyObject {
     func fetchTodoForEdit(id: Int64)
 }
 
-class CreateOrEditTodosInteractor: CreateOrEditTodosInteractorProtocol {
+final class CreateOrEditTodosInteractor: CreateOrEditTodosInteractorProtocol {
     weak var presenter: CreateOrEditTodosPresenterProtocol?
     
     private let coreDataManager: CoreDataManager

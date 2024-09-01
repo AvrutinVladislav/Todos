@@ -10,11 +10,12 @@ import UIKit
 
 final class TodosTableViewCell: UITableViewCell {
     
+    //MARK: - Public properties
     weak var presenter: TodosPresenterProtocol?
 
     static let identifier = "todoCell"
     
-    // MARK: - private properties
+    // MARK: - Private properties
     private var model: TodoCellData?
     
     //MARK: - UI

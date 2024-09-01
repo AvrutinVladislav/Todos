@@ -12,15 +12,16 @@ protocol TodosViewProtocol: AnyObject {
     func reloadTableView()
 }
 
-class TodosViewController: UIViewController {
+final class TodosViewController: UIViewController {
     // MARK: - Public
     var presenter: TodosPresenterProtocol?
     
     // MARK: - Private properties
+    private var todosLoadList: [TodoCellData] = []
+    
+    //MARK: - UI
     private let addTodoButton = UIButton()
     private let todoTableView = UITableView()
-    
-    private var todosLoadList: [TodoCellData] = []
 
     // MARK: - View lifecycle
     override func viewDidLoad() {

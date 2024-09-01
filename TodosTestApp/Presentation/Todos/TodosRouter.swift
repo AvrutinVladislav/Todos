@@ -11,7 +11,7 @@ protocol TodosRouterProtocol {
     func pushCreateOrEditViewController(id: Int64?, from view: TodosViewProtocol)
 }
 
-class TodosRouter: TodosRouterProtocol {
+final class TodosRouter: TodosRouterProtocol {
     weak var viewController: TodosViewController?
     
     func pushCreateOrEditViewController(id: Int64?, from view: TodosViewProtocol) {

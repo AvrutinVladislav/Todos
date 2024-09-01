@@ -18,7 +18,7 @@ enum CreateOrEditTodosState {
     case edit
 }
 
-class CreateOrEditTodosPresenter {
+final class CreateOrEditTodosPresenter {
     weak var view: CreateOrEditTodosViewProtocol?
     var router: CreateOrEditTodosRouterProtocol
     var interactor: CreateOrEditTodosInteractorProtocol

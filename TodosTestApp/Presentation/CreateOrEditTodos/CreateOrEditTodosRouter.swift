@@ -11,7 +11,7 @@ protocol CreateOrEditTodosRouterProtocol {
     func popViewController(from view: CreateOrEditTodosViewProtocol)
 }
 
-class CreateOrEditTodosRouter: CreateOrEditTodosRouterProtocol {
+final class CreateOrEditTodosRouter: CreateOrEditTodosRouterProtocol {
     weak var viewController: CreateOrEditTodosViewController?
     
     func popViewController(from view: CreateOrEditTodosViewProtocol) {

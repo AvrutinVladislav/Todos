@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CreateOrEditTodosModuleBuilder {
+final class CreateOrEditTodosModuleBuilder {
     static func build(id: Int64, state: CreateOrEditTodosState, onFinish: @escaping (Int64) -> Void) -> CreateOrEditTodosViewController {
         let coreDataManager = CoreDataManagerImp()
         let interactor = CreateOrEditTodosInteractor(coreDataManager: coreDataManager)

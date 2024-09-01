@@ -13,17 +13,18 @@ protocol CreateOrEditTodosViewProtocol: AnyObject {
     func prepareTodoTextForEdit(text: String)
 }
 
-class CreateOrEditTodosViewController: UIViewController {
-    //MARK: - Private properties
-    private let textView = UITextView()
-    private  let saveButton = UIButton()
-    private  let backButton = UIButton()
+final class CreateOrEditTodosViewController: UIViewController {
     
     // MARK: - Public properties
     var presenter: CreateOrEditTodosPresenterProtocol?
     var onFinish: ((_ id: Int64) -> Void)?
     var todoId: Int64?
     var state = CreateOrEditTodosState.edit
+    
+    //MARK: - UI
+    private let textView = UITextView()
+    private  let saveButton = UIButton()
+    private  let backButton = UIButton()
     
     // MARK: - View lifecycle
     override func viewDidLoad() {
