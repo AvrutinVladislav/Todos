@@ -41,7 +41,9 @@ extension CreateOrEditTodosPresenter: CreateOrEditTodosPresenterProtocol {
     }
     
     func backButtonDidTap() {
-        router.popViewController()
+        if let view {
+            router.popViewController(from: view)
+        }
     }
     
     func saveButtonDidTap(text: String) {
@@ -52,7 +54,9 @@ extension CreateOrEditTodosPresenter: CreateOrEditTodosPresenterProtocol {
     
     func onFineshed(id: Int64) {
         view?.onFinished(id: id)
-        router.popViewController()
+        if let view {
+            router.popViewController(from: view)
+        }
     }
     
     func editTodo(text: String) {

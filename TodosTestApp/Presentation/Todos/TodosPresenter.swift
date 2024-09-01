@@ -8,6 +8,7 @@
 import Foundation
 
 protocol TodosPresenterProtocol: AnyObject {
+    var view: TodosViewProtocol? {get set}
     func viewDidLoad()
     func todosDataDidLoad(todos: [TodoCellData])
     func completeButtonDidTap(todo: inout TodoCellData)
@@ -54,7 +55,8 @@ extension TodosPresenter: TodosPresenterProtocol {
     }
     
     func pushCreateOrEditVC(id: Int64?) {
-        router.pushCreateOrEditViewController(id: id)
+        guard let view else { return }
+        router.pushCreateOrEditViewController(id: id, from: view)
     }
     
     func didAddedTodo(id: Int64) {
