@@ -6,9 +6,11 @@
 //
 
 protocol CreateOrEditTodosPresenterProtocol: AnyObject {
+    func viewDidLoad(todoId: Int64?, state: CreateOrEditTodosState)
     func backButtonDidTap()
     func saveButtonDidTap(text: String)
-    func callBackId(id: Int64)
+    func onFineshed(id: Int64)
+    func editTodo(text: String)
 }
 
 enum CreateOrEditTodosState {
@@ -21,6 +23,7 @@ class CreateOrEditTodosPresenter {
     var router: CreateOrEditTodosRouterProtocol
     var interactor: CreateOrEditTodosInteractorProtocol
     var state = CreateOrEditTodosState.create
+    var todoId: Int64?
 
     init(interactor: CreateOrEditTodosInteractorProtocol, router: CreateOrEditTodosRouterProtocol) {
         self.interactor = interactor
@@ -29,21 +32,31 @@ class CreateOrEditTodosPresenter {
 }
 
 extension CreateOrEditTodosPresenter: CreateOrEditTodosPresenterProtocol {
+    func viewDidLoad(todoId: Int64?, state: CreateOrEditTodosState) {
+        self.todoId = todoId
+        if state == .edit,
+           let todoId {
+            interactor.fetchTodoForEdit(id: todoId)
+        }
+    }
+    
     func backButtonDidTap() {
         router.popViewController()
     }
     
     func saveButtonDidTap(text: String) {
-        switch state {
-        case .create:
-            interactor.saveNewTodoToDB(text: text, state: state)
-        case .edit:
-            break
+        if let todoId {
+            interactor.saveNewTodoToDB(text: text, state: state, id: todoId)
         }
     }
     
-    func callBackId(id: Int64) {
-        view?.onFinished()
+    func onFineshed(id: Int64) {
+        view?.onFinished(id: id)
+        router.popViewController()
+    }
+    
+    func editTodo(text: String) {
+        view?.prepareTodoTextForEdit(text: text)
     }
     
 }

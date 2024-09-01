@@ -9,8 +9,8 @@ import UIKit
 
 protocol CreateOrEditTodosViewProtocol: AnyObject {
     func showAlert(title: String, message: String, firstButtonTitle: String, secondButtonTitle: String)
-    func onFinished()
-    func toDoId(id: Int64)
+    func onFinished(id: Int64)
+    func prepareTodoTextForEdit(text: String)
 }
 
 class CreateOrEditTodosViewController: UIViewController {
@@ -18,16 +18,18 @@ class CreateOrEditTodosViewController: UIViewController {
     private let textView = UITextView()
     private  let saveButton = UIButton()
     private  let backButton = UIButton()
-    var onFinish: ((_ id: Int64) -> Void)?
-    var todoId: Int64?
     
     // MARK: - Public properties
     var presenter: CreateOrEditTodosPresenterProtocol?
-
+    var onFinish: ((_ id: Int64) -> Void)?
+    var todoId: Int64?
+    var state = CreateOrEditTodosState.edit
+    
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        presenter?.viewDidLoad(todoId: todoId, state: state)
     }
 }
 
@@ -36,9 +38,7 @@ private extension CreateOrEditTodosViewController {
     func setupUI() {
         navigationItem.hidesBackButton = true
         
-        let separator = UIView()
-        separator.frame = .init(x: 0, y: 0, width: view.frame.width, height: 1)
-        separator.backgroundColor = .white
+        let topButtonsView = UIView()
         
         saveButton.setTitle("Save", for: .normal)
         saveButton.tintColor = .white
@@ -49,29 +49,33 @@ private extension CreateOrEditTodosViewController {
         backButton.tintColor = .white
         backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         
-        view.addSubview(saveButton)
-        view.addSubview(backButton)
-        view.addSubview(separator)
+        textView.textColor = .black
+        textView.font = .systemFont(ofSize: 20)
+        
+        view.addSubview(topButtonsView)
         view.addSubview(textView)
+        topButtonsView.addSubview(backButton)
+        topButtonsView.addSubview(saveButton)
+        
+        topButtonsView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                              leading: view.safeAreaLayoutGuide.leadingAnchor,
+                              bottom: nil,
+                              trailing: view.safeAreaLayoutGuide.trailingAnchor,
+                              size: CGSizeMake(view.frame.width, 40))
         
         saveButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                           leading: nil,
-                          bottom: separator.topAnchor,
+                          bottom: nil,
                           trailing: view.safeAreaLayoutGuide.trailingAnchor,
                           padding: .init(top: 5, left: 0, bottom: -10, right: -10))
         
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                           leading: view.safeAreaLayoutGuide.leadingAnchor,
-                          bottom: separator.topAnchor,
+                          bottom: nil,
                           trailing: nil,
                           padding: .init(top: 5, left: 10, bottom: -10, right: 0))
         
-        separator.anchor(top: nil,
-                         leading: view.safeAreaLayoutGuide.leadingAnchor,
-                         bottom: textView.topAnchor,
-                         trailing: view.safeAreaLayoutGuide.trailingAnchor)
-        
-        textView.anchor(top: nil,
+        textView.anchor(top: topButtonsView.bottomAnchor,
                         leading: view.safeAreaLayoutGuide.leadingAnchor,
                         bottom: view.safeAreaLayoutGuide.bottomAnchor,
                         trailing: view.safeAreaLayoutGuide.trailingAnchor,
@@ -101,13 +105,12 @@ extension CreateOrEditTodosViewController: CreateOrEditTodosViewProtocol {
         self.present(alert, animated: true)
     }
     
-    func onFinished() {
-        if let todoId = todoId {
-            onFinish?(todoId)
-        }
+    func onFinished(id: Int64) {
+        onFinish?(id)
     }
     
-    func toDoId(id: Int64) {
-        todoId = id
+    func prepareTodoTextForEdit(text: String) {
+        textView.text = text
     }
+    
 }

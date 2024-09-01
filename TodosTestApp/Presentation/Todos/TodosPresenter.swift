@@ -11,10 +11,9 @@ protocol TodosPresenterProtocol: AnyObject {
     func viewDidLoad()
     func todosDataDidLoad(todos: [TodoCellData])
     func completeButtonDidTap(todo: inout TodoCellData)
-    func pushCreateOrEditVC(id: Int64)
+    func pushCreateOrEditVC(id: Int64?)
     func didAddedTodo(id: Int64)
-    func buildCell(id: Int64, userId: Int64, isCompleted: Bool, todo: String, date: Date) -> TodoCellData
-    func checkChanges()
+    func deleteTodo(todo: TodoCellData)
 }
 
 class TodosPresenter {
@@ -40,12 +39,12 @@ extension TodosPresenter: TodosPresenterProtocol {
     }
     
     func completeButtonDidTap(todo: inout TodoCellData) {
-        todo.todo.isCompleted.toggle()
+        todo.item.isCompleted.toggle()
         interactor.updateCoreData(todo: todo)
         todos.forEach { item in
-            if item.todo.todoId == todo.todo.todoId &&
-                item.todo.isCompleted != todo.todo.isCompleted {
-                if let index = self.todos.firstIndex(where: {$0.todo.todoId == todo.todo.todoId}) {
+            if item.item.todoId == todo.item.todoId &&
+                item.item.isCompleted != todo.item.isCompleted {
+                if let index = self.todos.firstIndex(where: {$0.item.todoId == todo.item.todoId}) {
                     todos.remove(at: index)
                     todos.insert(todo, at: index)
                 }
@@ -54,24 +53,21 @@ extension TodosPresenter: TodosPresenterProtocol {
         view?.prepareDataForCells(todos: todos)
     }
     
-    func pushCreateOrEditVC(id: Int64) {
-        
+    func pushCreateOrEditVC(id: Int64?) {
+        router.pushCreateOrEditViewController(id: id)
     }
     
     func didAddedTodo(id: Int64) {
-        interactor.fetchDataFromDB()
+        interactor.updateEditTodo(id: id, todosList: &todos)
+        view?.prepareDataForCells(todos: todos)
     }
     
-    func buildCell(id: Int64, userId: Int64, isCompleted: Bool, todo: String, date: Date) -> TodoCellData {
-        return TodoCellData(todo: Todo(todoId: Int(id),
-                                       userId: Int(userId),
-                                       isCompleted: isCompleted,
-                                       todo: todo),
-                            date: date)
-    }
-    
-    func checkChanges() {
-        
+    func deleteTodo(todo: TodoCellData) {
+        interactor.deleteTodo(todo: todo)
+        if let index = todos.firstIndex(where: {$0.item.todoId == todo.item.todoId}) {
+            todos.remove(at: index)
+        }
+        view?.prepareDataForCells(todos: todos)
     }
     
 }

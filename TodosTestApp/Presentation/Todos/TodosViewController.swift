@@ -42,7 +42,6 @@ private extension TodosViewController {
         addTodoButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addTodoButton.contentVerticalAlignment = .fill
         addTodoButton.contentHorizontalAlignment = .fill
-        addTodoButton.frame = .init(x: 0, y: 0, width: 35, height: 35)
         addTodoButton.tintColor = .white
         
         view.addSubview(addTodoButton)
@@ -52,7 +51,8 @@ private extension TodosViewController {
                              leading: nil,
                              bottom: nil,
                              trailing: view.safeAreaLayoutGuide.trailingAnchor,
-                             padding: .init(top: 10, left: 0, bottom: 0, right: -10))
+                             padding: .init(top: 10, left: 0, bottom: 0, right: -10),
+        size: CGSizeMake(35, 35))
         
         todoTableView.anchor(top: addTodoButton.bottomAnchor,
                              leading: view.safeAreaLayoutGuide.leadingAnchor,
@@ -63,7 +63,7 @@ private extension TodosViewController {
     }
     
     @objc func addTodoButtonDidTap() {
-        navigationController?.pushViewController(CreateOrEditTodosModuleBuilder.build(), animated: true)
+        presenter?.pushCreateOrEditVC(id: nil)
     }
     
 }
@@ -86,7 +86,11 @@ extension TodosViewController: UITableViewDataSource {
 //MARK: - TableViewDelegate
 extension TodosViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        presenter?.pushCreateOrEditVC(id: Int64(todosLoadList[indexPath.row].item.todoId))
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        presenter?.deleteTodo(todo: todosLoadList[indexPath.row])
     }
 }
 

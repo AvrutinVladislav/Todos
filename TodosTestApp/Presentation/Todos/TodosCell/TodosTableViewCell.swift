@@ -33,8 +33,8 @@ final class TodosTableViewCell: UITableViewCell {
     
     func configureCell(model: TodoCellData) {
         self.model = model
-        todoTextView.text = model.todo.todo
-        if model.todo.isCompleted {
+        todoTextView.text = model.item.todo
+        if model.item.isCompleted {
             completeButton.setTitleColor(.green, for: .normal)
             completeButton.setTitle("completed", for: .normal)
         } else {
@@ -56,13 +56,14 @@ private extension TodosTableViewCell {
         todoTextView.font = .systemFont(ofSize: 15)
         todoTextView.isScrollEnabled = false
         todoTextView.textAlignment = .center
+        todoTextView.isUserInteractionEnabled = false
         
         completeButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
         completeButton.isUserInteractionEnabled = true
         completeButton.addTarget(self, action: #selector(completedButtonDidTap), for: .touchUpInside)
         
         dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        dateLabel.textAlignment = .right
+        dateLabel.textAlignment = .center
         
         contentView.addSubview(content)
         content.addSubview(todoTextView)

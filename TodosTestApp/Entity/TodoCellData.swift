@@ -8,6 +8,6 @@
 import Foundation
 
 struct TodoCellData {
-    var todo: Todo
+    var item: Todo
     var date: Date
 }
