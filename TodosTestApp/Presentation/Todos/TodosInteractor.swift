@@ -39,6 +39,7 @@ extension TodosInteractor {
                      isCompleted: item.isCompleted,
                      todo: item.todo ?? "")
             }
+            guard !firstLaunchComplited else { return }
             todos.todos.forEach { todo in
                 if data.contains(where: {$0.todoId == todo.todoId
                     && $0.isCompleted == todo.isCompleted
