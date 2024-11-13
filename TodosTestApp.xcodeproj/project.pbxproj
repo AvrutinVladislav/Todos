@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5726653A2CE242A900AF2393 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 572665392CE242A900AF2393 /* RxCocoa */; };
+		5726653C2CE242A900AF2393 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5726653B2CE242A900AF2393 /* RxSwift */; };
+		5726653E2CE2431800AF2393 /* AppDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5726653D2CE2431800AF2393 /* AppDIContainer.swift */; };
+		572665412CE2434D00AF2393 /* SwinjectAutoregistration in Frameworks */ = {isa = PBXBuildFile; productRef = 572665402CE2434D00AF2393 /* SwinjectAutoregistration */; };
+		57815C602CE48A320046ED6B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 57815C5F2CE48A320046ED6B /* RxCocoa */; };
 		57D0FF822C7CC92D0058FD67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FF812C7CC92D0058FD67 /* AppDelegate.swift */; };
 		57D0FF842C7CC92D0058FD67 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FF832C7CC92D0058FD67 /* SceneDelegate.swift */; };
 		57D0FF8C2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FF8A2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld */; };
@@ -54,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5726653D2CE2431800AF2393 /* AppDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDIContainer.swift; sourceTree = "<group>"; };
 		57D0FF7E2C7CC92D0058FD67 /* TodosTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodosTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57D0FF812C7CC92D0058FD67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57D0FF832C7CC92D0058FD67 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +98,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5726653C2CE242A900AF2393 /* RxSwift in Frameworks */,
+				5726653A2CE242A900AF2393 /* RxCocoa in Frameworks */,
+				57815C602CE48A320046ED6B /* RxCocoa in Frameworks */,
+				572665412CE2434D00AF2393 /* SwinjectAutoregistration in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +231,7 @@
 				57D0FF832C7CC92D0058FD67 /* SceneDelegate.swift */,
 				57D0FF8F2C7CC92E0058FD67 /* LaunchScreen.storyboard */,
 				57D0FF922C7CC92E0058FD67 /* Info.plist */,
+				5726653D2CE2431800AF2393 /* AppDIContainer.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -349,6 +360,10 @@
 				Base,
 			);
 			mainGroup = 57D0FF752C7CC92D0058FD67;
+			packageReferences = (
+				5726653F2CE2434D00AF2393 /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */,
+				57815C5E2CE48A320046ED6B /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			productRefGroup = 57D0FF7F2C7CC92D0058FD67 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -407,6 +422,7 @@
 				57D0FFC72C7CCEEF0058FD67 /* TodosTableViewCell.swift in Sources */,
 				57D0FFBB2C7CCA150058FD67 /* TodosPresenter.swift in Sources */,
 				57D0FFBC2C7CCA150058FD67 /* TodosRouter.swift in Sources */,
+				5726653E2CE2431800AF2393 /* AppDIContainer.swift in Sources */,
 				57D0FFBD2C7CCA150058FD67 /* TodosViewController.swift in Sources */,
 				57D0FFD42C7E15810058FD67 /* TodosSectionsModel.swift in Sources */,
 				57D0FFC12C7CCBA00058FD67 /* Todo.swift in Sources */,
@@ -743,6 +759,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		572665382CE242A900AF2393 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
+		5726653F2CE2434D00AF2393 /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/SwinjectAutoregistration";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+		57815C5E2CE48A320046ED6B /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		572665392CE242A900AF2393 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 572665382CE242A900AF2393 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		5726653B2CE242A900AF2393 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 572665382CE242A900AF2393 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		572665402CE2434D00AF2393 /* SwinjectAutoregistration */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5726653F2CE2434D00AF2393 /* XCRemoteSwiftPackageReference "SwinjectAutoregistration" */;
+			productName = SwinjectAutoregistration;
+		};
+		57815C5F2CE48A320046ED6B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57815C5E2CE48A320046ED6B /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		57D0FF8A2C7CC92D0058FD67 /* TodosTestApp.xcdatamodeld */ = {

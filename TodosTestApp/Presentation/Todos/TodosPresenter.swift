@@ -31,7 +31,7 @@ final class TodosPresenter {
 
 extension TodosPresenter: TodosPresenterProtocol {
     func viewDidLoad() {
-        interactor.prepareData()
+        interactor.prepareRxData()
     }
     
     func todosDataDidLoad(todos: [TodoCellData]) {

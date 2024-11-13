@@ -9,7 +9,7 @@ import UIKit
 
 final class CreateOrEditTodosModuleBuilder {
     static func build(id: Int64, state: CreateOrEditTodosState, onFinish: @escaping (Int64) -> Void) -> CreateOrEditTodosViewController {
-        let coreDataManager = CoreDataManagerImp()
+        let coreDataManager: CoreDataManager = AppDIContainer.shared.inject()
         let interactor = CreateOrEditTodosInteractor(coreDataManager: coreDataManager)
         let router = CreateOrEditTodosRouter()
         let presenter = CreateOrEditTodosPresenter(interactor: interactor, router: router)

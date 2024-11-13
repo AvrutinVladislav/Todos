@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 protocol TodosInteractorProtocol: AnyObject {
     func prepareData()
+    func prepareRxData()
     func fetchDataFromDB() -> [TodoCellData]
     func updateEditTodo(id: Int64, todosList: inout [TodoCellData])
     func updateCoreData(todo: TodoCellData)
@@ -22,14 +25,45 @@ final class TodosInteractor {
     
     private let networkService: NetworkService
     private let coreDataManager: CoreDataManager
+    private let disposeBag = DisposeBag()
     
-    init(networkService: NetworkService, coreDataManager: CoreDataManager) {
+    init(networkService: NetworkService,
+         coreDataManager: CoreDataManager) {
         self.networkService = networkService
         self.coreDataManager = coreDataManager
     }
 }
 
 extension TodosInteractor {
+    func addedRxTodosToCoreData(todos: Observable<TodosSectionsModel>) {
+        todos.subscribe {[weak self] todos in
+            guard let self else { return }
+            switch self.coreDataManager.fetchData() {
+                case .success(let fetchResult):
+                let data = fetchResult.map { item in
+                    Todo(todoId: Int(item.id),
+                         userId: Int(item.userId),
+                         isCompleted: item.isCompleted,
+                         todo: item.todo ?? "")
+                }
+                guard !firstLaunchComplited else { return }
+                todos.todos.forEach { todo in
+                    if data.contains(where: {$0.todoId == todo.todoId
+                        && $0.isCompleted == todo.isCompleted
+                        && $0.todo == todo.todo})
+                    {
+                        self.updateCoreData(todo: TodoCellData(item: todo, date: Date()))
+                    } else {
+                        self.fillCoreDataFromFson(todo: todo)
+                    }
+                }
+            case .failure(let error):
+                print(error.errorDescription)
+            }
+        }
+        .disposed(by: disposeBag)
+    }
+    
     func addedTodosToDB(todos: TodosSectionsModel) {
         switch self.coreDataManager.fetchData() {
         case .success(let fetchResult):
@@ -57,6 +91,42 @@ extension TodosInteractor {
 }
 
 extension TodosInteractor: TodosInteractorProtocol {
+    func prepareRxData() {
+        if !firstLaunchComplited {
+            let todos = networkService.getDataRx()
+            addedRxTodosToCoreData(todos: todos)
+            switch coreDataManager.fetchData() {
+            case .success(let result):
+                let data = result.map {item in
+                    TodoCellData(item: Todo(todoId: Int(item.id),
+                                            userId: Int(item.userId),
+                                            isCompleted: item.isCompleted,
+                                            todo: item.todo ?? ""),
+                                 date: Date())
+                }
+                presenter?.todosDataDidLoad(todos: data)
+                UserDefaults.standard.set(true, forKey: "isFirstLaunch")
+                UserDefaults.standard.synchronize()
+            case .failure(let error):
+                print(error.errorDescription)
+            }
+        } else {
+            switch coreDataManager.fetchData() {
+            case .success(let result):
+                let data = result.map {item in
+                    TodoCellData(item: Todo(todoId: Int(item.id),
+                                            userId: Int(item.userId),
+                                            isCompleted: item.isCompleted,
+                                            todo: item.todo ?? ""),
+                                 date: Date())
+                }
+                presenter?.todosDataDidLoad(todos: data)
+            case .failure(let error):
+                print(error.errorDescription)
+            }
+        }
+    }
+    
     func prepareData() {
         if !firstLaunchComplited {
             networkService.getData { [weak self] todos in
