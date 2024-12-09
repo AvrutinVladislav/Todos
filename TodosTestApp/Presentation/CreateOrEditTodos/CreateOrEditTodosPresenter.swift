@@ -5,12 +5,14 @@
 //  Created by Vladislav Avrutin on 27.08.2024
 //
 
+import Foundation
+
 protocol CreateOrEditTodosPresenterProtocol: AnyObject {
-    func viewDidLoad(todoId: Int64?, state: CreateOrEditTodosState)
+    func viewDidLoad(todoId: Int64?, title: String?, state: CreateOrEditTodosState)
     func backButtonDidTap()
     func saveButtonDidTap(text: String)
     func onFineshed(id: Int64)
-    func editTodo(text: String)
+    func editTodo(model: TodoCellData)
 }
 
 enum CreateOrEditTodosState {
@@ -24,6 +26,7 @@ final class CreateOrEditTodosPresenter {
     var interactor: CreateOrEditTodosInteractorProtocol
     var state = CreateOrEditTodosState.create
     var todoId: Int64?
+    var title: String?
 
     init(interactor: CreateOrEditTodosInteractorProtocol, router: CreateOrEditTodosRouterProtocol) {
         self.interactor = interactor
@@ -32,11 +35,18 @@ final class CreateOrEditTodosPresenter {
 }
 
 extension CreateOrEditTodosPresenter: CreateOrEditTodosPresenterProtocol {
-    func viewDidLoad(todoId: Int64?, state: CreateOrEditTodosState) {
+    func viewDidLoad(todoId: Int64?, title: String?, state: CreateOrEditTodosState) {
         self.todoId = todoId
         if state == .edit,
-           let todoId {
-            interactor.fetchTodoForEdit(id: todoId)
+           let todoId, let title {
+            interactor.fetchTodoForEdit(id: todoId, title: title)
+        } else {
+            editTodo(model: TodoCellData(item: Todo(todoId: Int.random(in: 300..<999),
+                                                    userId: 14,
+                                                    isCompleted: false,
+                                                    todo: "Введите описание"),
+                                         title: "",
+                                         date: Date()))
         }
     }
     
@@ -59,8 +69,8 @@ extension CreateOrEditTodosPresenter: CreateOrEditTodosPresenterProtocol {
         }
     }
     
-    func editTodo(text: String) {
-        view?.prepareTodoTextForEdit(text: text)
+    func editTodo(model: TodoCellData) {
+        view?.prepareTodoTextForEdit(model: model)
     }
     
 }

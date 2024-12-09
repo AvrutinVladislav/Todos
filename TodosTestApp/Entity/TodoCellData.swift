@@ -9,5 +9,6 @@ import Foundation
 
 struct TodoCellData {
     var item: Todo
+    var title: String = ""
     var date: Date
 }

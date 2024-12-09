@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RxSwift
 
 enum NetworkError: Error {
     case responceError(Error)
@@ -30,39 +29,11 @@ enum NetworkError: Error {
 
 protocol NetworkService {
     func getData(completion: @escaping(Result<TodosSectionsModel, NetworkError>) -> Void)
-    func getDataRx() -> Observable<TodosSectionsModel>
 }
 
 final class NetworkServiceImp: NetworkService {
     
     private let mokJsonUrl = "https://dummyjson.com/todos"
-    
-    func getDataRx() -> Observable<TodosSectionsModel> {
-        let url = URL(string: mokJsonUrl)
-        return Observable.create { observer in
-            guard let url
-            else {
-                observer.onError(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalide url"]))
-                return Disposables.create()
-            }
-            let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                if let error {
-                    observer.onError(error)
-                }
-                else if let data {
-                    do {
-                        let response = try JSONDecoder().decode(TodosSectionsModel.self, from: data)
-                        observer.onNext(response)
-                        observer.onCompleted()
-                    } catch {
-                        observer.onError(error)
-                    }
-                }
-            }
-            task.resume()
-            return Disposables.create { task.cancel() }
-        }
-    }
 
     func getData(completion: @escaping(Result<TodosSectionsModel, NetworkError>) -> Void) {
         guard let url = URL(string: mokJsonUrl) else {

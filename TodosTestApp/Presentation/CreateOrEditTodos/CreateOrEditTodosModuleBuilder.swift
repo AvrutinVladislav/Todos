@@ -8,7 +8,9 @@
 import UIKit
 
 final class CreateOrEditTodosModuleBuilder {
-    static func build(id: Int64, state: CreateOrEditTodosState, onFinish: @escaping (Int64) -> Void) -> CreateOrEditTodosViewController {
+    static func build(model: TodoCellData,
+                      state: CreateOrEditTodosState,
+                      onFinish: @escaping (Int64) -> Void) -> CreateOrEditTodosViewController {
         let coreDataManager: CoreDataManager = AppDIContainer.shared.inject()
         let interactor = CreateOrEditTodosInteractor(coreDataManager: coreDataManager)
         let router = CreateOrEditTodosRouter()
@@ -18,7 +20,7 @@ final class CreateOrEditTodosModuleBuilder {
         presenter.state = state
         viewController.presenter = presenter
         viewController.state = state
-        viewController.todoId = id
+        viewController.model = model
         viewController.onFinish = onFinish
         interactor.presenter = presenter
         router.viewController = viewController

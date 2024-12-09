@@ -9,7 +9,7 @@ import Foundation
 
 protocol CreateOrEditTodosInteractorProtocol: AnyObject {
     func saveNewTodoToDB(text: String, state: CreateOrEditTodosState, id: Int64)
-    func fetchTodoForEdit(id: Int64)
+    func fetchTodoForEdit(id: Int64, title: String)
 }
 
 final class CreateOrEditTodosInteractor: CreateOrEditTodosInteractorProtocol {
@@ -40,10 +40,17 @@ final class CreateOrEditTodosInteractor: CreateOrEditTodosInteractorProtocol {
         }
     }
     
-    func fetchTodoForEdit(id: Int64) {
+    func fetchTodoForEdit(id: Int64, title: String) {
         switch coreDataManager.fetchData(predicate: NSPredicate(format: "id = %lld", id)) {
         case .success(let todo):
-            presenter?.editTodo(text: todo.todo ?? "")
+            presenter?.editTodo(model: TodoCellData(
+                item: Todo(todoId: Int(todo.id),
+                           userId: Int(todo.userId),
+                           isCompleted: todo.isCompleted,
+                           todo: todo.todo ?? ""),
+                title: title,
+                date: Date())
+            )
         case .failure(let error):
             print(error.errorDescription)
         }

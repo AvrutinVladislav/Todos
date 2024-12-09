@@ -10,7 +10,7 @@ import UIKit
 protocol CreateOrEditTodosViewProtocol: AnyObject {
     func showAlert(title: String, message: String, firstButtonTitle: String, secondButtonTitle: String)
     func onFinished(id: Int64)
-    func prepareTodoTextForEdit(text: String)
+    func prepareTodoTextForEdit(model: TodoCellData) 
 }
 
 final class CreateOrEditTodosViewController: UIViewController {
@@ -18,19 +18,26 @@ final class CreateOrEditTodosViewController: UIViewController {
     // MARK: - Public properties
     var presenter: CreateOrEditTodosPresenterProtocol?
     var onFinish: ((_ id: Int64) -> Void)?
-    var todoId: Int64?
+    var model: TodoCellData?
     var state = CreateOrEditTodosState.edit
     
     //MARK: - UI
     private let textView = UITextView()
-    private  let saveButton = UIButton()
-    private  let backButton = UIButton()
+    private let saveButton = UIButton()
+    private let backButton = UIButton()
+    private let topButtonsView = UIView()
+    private let titleTextField = UITextField()
+    private let dateLabel = UILabel()
     
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        presenter?.viewDidLoad(todoId: todoId, state: state)
+        addSubviews()
+        addConstraints()
+        presenter?.viewDidLoad(todoId: Int64(model?.item.todoId ?? 0),
+                               title: model?.title,
+                               state: state)
     }
 }
 
@@ -39,52 +46,94 @@ private extension CreateOrEditTodosViewController {
     func setupUI() {
         navigationItem.hidesBackButton = true
         
-        let topButtonsView = UIView()
-        
         saveButton.setTitle("Save", for: .normal)
         saveButton.tintColor = .white
         saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         
-        backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-        backButton.setTitle("Back", for: .normal)
-        backButton.tintColor = .white
+        backButton.setImage(UIImage(resource: .chevron), for: .normal)
+        backButton.setTitle("  Назад", for: .normal)
+        backButton.setTitleColor(UIColor(resource: .iconYellow), for: .normal)
+        backButton.tintColor = .iconYellow
         backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         
-        textView.textColor = .black
-        textView.font = .systemFont(ofSize: 20)
+        textView.backgroundColor = .black
+        textView.font = .systemFont(ofSize: 16)
+        textView.delegate = self
+        textView.textColor = .completeTodo
+        textView.text = "Введите описание"
         
+        titleTextField.textColor = .white
+        titleTextField.font = .systemFont(ofSize: 34)
+        titleTextField.attributedPlaceholder = NSAttributedString(
+            string: "Введите заголовок",
+            attributes: [.strokeColor: UIColor(resource: .completeTodo)]
+        )
+        
+        dateLabel.textColor = .completeTodo
+        dateLabel.font = .systemFont(ofSize: 12)
+    }
+    
+    func addSubviews() {
+        view.addSubview(titleTextField)
         view.addSubview(topButtonsView)
         view.addSubview(textView)
+        view.addSubview(dateLabel)
         topButtonsView.addSubview(backButton)
-        topButtonsView.addSubview(saveButton)
-        
+//        topButtonsView.addSubview(saveButton)
+    }
+    
+    func addConstraints() {
         topButtonsView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                               leading: view.safeAreaLayoutGuide.leadingAnchor,
                               bottom: nil,
                               trailing: view.safeAreaLayoutGuide.trailingAnchor,
                               size: CGSizeMake(view.frame.width, 40))
         
-        saveButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                          leading: nil,
-                          bottom: nil,
-                          trailing: view.safeAreaLayoutGuide.trailingAnchor,
-                          padding: .init(top: 5, left: 0, bottom: -10, right: -10))
+//        saveButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+//                          leading: nil,
+//                          bottom: nil,
+//                          trailing: view.safeAreaLayoutGuide.trailingAnchor,
+//                          padding: .init(top: 5, left: 0, bottom: -10, right: -10))
         
         backButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                           leading: view.safeAreaLayoutGuide.leadingAnchor,
                           bottom: nil,
                           trailing: nil,
-                          padding: .init(top: 5, left: 10, bottom: -10, right: 0))
+                          padding: .init(top: 5, left: 10, bottom: 0, right: 0))
         
-        textView.anchor(top: topButtonsView.bottomAnchor,
+        titleTextField.anchor(top: topButtonsView.bottomAnchor,
+                          leading: view.safeAreaLayoutGuide.leadingAnchor,
+                          bottom: nil,
+                          trailing: view.safeAreaLayoutGuide.trailingAnchor,
+                          padding: .init(top: 8, left: 20, bottom: 0, right: -20))
+        
+        dateLabel.anchor(top: titleTextField.bottomAnchor,
+                         leading: view.safeAreaLayoutGuide.leadingAnchor,
+                         bottom: nil,
+                         trailing: view.safeAreaLayoutGuide.trailingAnchor,
+                         padding: .init(top: 0, left: 20, bottom: 0, right: -20))
+        dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        textView.anchor(top: dateLabel.bottomAnchor,
                         leading: view.safeAreaLayoutGuide.leadingAnchor,
                         bottom: view.safeAreaLayoutGuide.bottomAnchor,
                         trailing: view.safeAreaLayoutGuide.trailingAnchor,
-                        padding: .init(top: 10, left: 10, bottom: -10, right: -10))
+                        padding: .init(top: 16, left: 20, bottom: -10, right: -20))
+    }
+    
+    func convertDateToStrng(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yy"
+        return formatter.string(from: date)
     }
     
     @objc func backButtonDidTap() {
-        showAlert(title: "Do you want to save changes", message: "")
+        if let model,
+           titleTextField.text != model.title ||
+           textView.text != model.item.todo {
+            showAlert(title: "Do you want to save changes", message: "")
+        }
+        presenter?.backButtonDidTap()
     }
     
     @objc func saveButtonDidTap() {
@@ -110,8 +159,30 @@ extension CreateOrEditTodosViewController: CreateOrEditTodosViewProtocol {
         onFinish?(id)
     }
     
-    func prepareTodoTextForEdit(text: String) {
-        textView.text = text
+    func prepareTodoTextForEdit(model: TodoCellData) {
+        textView.text = model.item.todo
+        textView.textColor = textView.text == "Введите описание" ? .completeTodo : .white
+        dateLabel.text = convertDateToStrng(date: model.date)
+        titleTextField.text = model.title
     }
     
 }
+
+// MARK: - UITextViewDelegate
+extension CreateOrEditTodosViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.textColor = .white
+        if textView.text == "Введите описание" {
+            textView.text = ""
+        }
+    }
+}
+    

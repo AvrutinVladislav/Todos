@@ -19,6 +19,7 @@ final class TodosTableViewCell: UITableViewCell {
     private var model: TodoCellData?
     
     //MARK: - UI
+    private let titleLabel = UILabel()
     private let todoTextView = UITextView()
     private let completeButton = CustomButton()
     private let dateLabel = UILabel()
@@ -26,21 +27,38 @@ final class TodosTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        addSubviews()
+        addConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        titleLabel.textColor = .white
+        titleLabel.attributedText = NSAttributedString(
+            string: ""
+        )
+        todoTextView.textColor = .white
+    }
+    
     func configureCell(model: TodoCellData) {
         self.model = model
         todoTextView.text = model.item.todo
         if model.item.isCompleted {
-            completeButton.setTitleColor(.green, for: .normal)
-            completeButton.setTitle("completed", for: .normal)
+            titleLabel.attributedText = NSAttributedString(
+                string: model.title,
+                attributes: [.strikethroughStyle: NSUnderlineStyle.single.rawValue]
+            )
+            titleLabel.textColor = .completeTodo
+            todoTextView.textColor = .completeTodo
+            completeButton.setImage(UIImage(resource: .completedTodo), for: .normal)
         } else {
-            completeButton.setTitleColor(.red, for: .normal)
-            completeButton.setTitle("not completed", for: .normal)
+            titleLabel.textColor = .white
+            titleLabel.text = model.title
+            todoTextView.textColor = .white
+            completeButton.setImage(UIImage(resource: .notCompletedTodo), for: .normal)
         }
         dateLabel.text = convertDateToStrng(date: model.date)
         selectionStyle = .none
@@ -49,56 +67,65 @@ final class TodosTableViewCell: UITableViewCell {
 
 private extension TodosTableViewCell {
     func setupUI() {
-        let content = UIView()
-        content.layer.borderWidth = 1
-        content.layer.cornerRadius = 10
+        contentView.backgroundColor = .black
         
-        todoTextView.textColor = .black
-        todoTextView.font = .systemFont(ofSize: 15)
+        titleLabel.textColor = .white
+        titleLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        
+        todoTextView.textColor = .white
+        todoTextView.backgroundColor = .black
+        todoTextView.font = .systemFont(ofSize: 12)
         todoTextView.isScrollEnabled = false
-        todoTextView.textAlignment = .center
+        todoTextView.showsVerticalScrollIndicator = false
+        todoTextView.showsHorizontalScrollIndicator = false
         todoTextView.isUserInteractionEnabled = false
         
-        completeButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
         completeButton.isUserInteractionEnabled = true
         completeButton.addTarget(self, action: #selector(completedButtonDidTap), for: .touchUpInside)
         
-        dateLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        dateLabel.textAlignment = .center
+        dateLabel.textColor = .completeTodo
+        dateLabel.font = .systemFont(ofSize: 12)
+    }
+    
+    func addSubviews() {
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(todoTextView)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(completeButton)
+    }
+    
+    func addConstraints() {
+        completeButton.anchor(top: contentView.safeAreaLayoutGuide.topAnchor,
+                              leading: contentView.leadingAnchor,
+                              bottom: nil,
+                              trailing: nil,
+                              padding: .init(top: 12, left: 20, bottom: 0, right: 0),
+                              size: .init(width: 24, height: 24))
         
-        contentView.addSubview(content)
-        content.addSubview(todoTextView)
-        content.addSubview(dateLabel)
-        content.addSubview(completeButton)
+        titleLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        titleLabel.anchor(top: contentView.safeAreaLayoutGuide.topAnchor,
+                          leading: completeButton.trailingAnchor,
+                          bottom: nil,
+                          trailing: contentView.safeAreaLayoutGuide.trailingAnchor,
+                          padding: .init(top: 12, left: 8, bottom: 0, right: -20))
         
-        content.anchor(top: contentView.safeAreaLayoutGuide.topAnchor,
-                       leading: contentView.safeAreaLayoutGuide.leadingAnchor,
-                       bottom: contentView.safeAreaLayoutGuide.bottomAnchor,
-                       trailing: contentView.safeAreaLayoutGuide.trailingAnchor,
-                       padding: .init(top: 10, left: 10, bottom: -5, right: -10))
+        todoTextView.anchor(top: titleLabel.bottomAnchor,
+                            leading: contentView.safeAreaLayoutGuide.leadingAnchor,
+                            bottom: dateLabel.topAnchor,
+                            trailing: contentView.safeAreaLayoutGuide.trailingAnchor,
+                            padding: .init(top: 6, left: 52, bottom: -5, right: -20))
         
-        todoTextView.anchor(top: content.safeAreaLayoutGuide.topAnchor,
-                            leading: content.safeAreaLayoutGuide.leadingAnchor,
-                            bottom: content.safeAreaLayoutGuide.bottomAnchor,
-                            trailing: nil,
-                            padding: .init(top: 5, left: 5, bottom: -5, right: 0))
-        
-        dateLabel.anchor(top: content.safeAreaLayoutGuide.topAnchor,
-                         leading: todoTextView.trailingAnchor,
-                         bottom: nil,
-                         trailing: content.safeAreaLayoutGuide.trailingAnchor,
-                         padding: .init(top: 5, left: 5, bottom: 0, right: -5))
-        
-        completeButton.anchor(top: dateLabel.bottomAnchor,
-                             leading: todoTextView.trailingAnchor,
-                             bottom: content.safeAreaLayoutGuide.bottomAnchor,
-                             trailing: content.safeAreaLayoutGuide.trailingAnchor,
-                             padding: .init(top: 5, left: 5, bottom: -5, right: -5))
+        dateLabel.anchor(top: todoTextView.bottomAnchor,
+                         leading: contentView.safeAreaLayoutGuide.leadingAnchor,
+                         bottom: contentView.safeAreaLayoutGuide.bottomAnchor,
+                         trailing: contentView.safeAreaLayoutGuide.trailingAnchor,
+                         padding: .init(top: 6, left: 52, bottom: -10, right: 0),
+                         size: .init(width: contentView.frame.width, height: 20))
     }
     
     func convertDateToStrng(date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateFormat = "dd/MM/yy"
         return formatter.string(from: date)
     }
     
