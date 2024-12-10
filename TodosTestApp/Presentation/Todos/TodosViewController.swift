@@ -18,6 +18,7 @@ final class TodosViewController: UIViewController {
     
     // MARK: - Private properties
     private var todosLoadList: [TodoCellData] = []
+    private var searchList: [TodoCellData] = []
     
     //MARK: - UI
     private let addTodoButton = UIButton()
@@ -127,6 +128,8 @@ private extension TodosViewController {
         searchBar.layer.cornerRadius = 10
         searchBar.layer.masksToBounds = true
         searchBar.backgroundColor = UIColor(named: "footerColor")
+        searchBar.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        searchBar.textColor = .white
 
         let leftIconView = UIImageView(image: UIImage(systemName: "magnifyingglass"))
         leftIconView.tintColor = .gray
@@ -160,8 +163,12 @@ private extension TodosViewController {
         print("Микрофон нажат")
     }
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        ///Тут должен быть фильтр, но json не полный и не понятно как это реализовать на данный момент
+    @objc func textFieldDidChange() {
+        let searchText = searchBar.text ?? ""
+        if let filterList = presenter?.filterCells(cells: todosLoadList, searchText: searchText) {
+            searchList = filterList
+            reloadTableView()
+        }
     }
     
 }
@@ -169,13 +176,13 @@ private extension TodosViewController {
 //MARK: - TableViewDataSource
 extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        todosCounterLabel.text = "\(todosLoadList.count) Задач"
-        return todosLoadList.count
+        todosCounterLabel.text = "\(searchList.count) Задач"
+        return searchList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TodosTableViewCell.identifier, for: indexPath) as? TodosTableViewCell else { return UITableViewCell() }
-        cell.configureCell(model: todosLoadList[indexPath.row])
+        cell.configureCell(model: searchList[indexPath.row])
         cell.presenter = presenter
         let interaction = UIContextMenuInteraction(delegate: self)
         cell.addInteraction(interaction)
@@ -200,6 +207,7 @@ extension TodosViewController: UITableViewDelegate {
 extension TodosViewController: TodosViewProtocol {
     func prepareDataForCells(todos: [TodoCellData]) {
         todosLoadList = todos
+        searchList = todos
         reloadTableView()
     }
     

@@ -15,6 +15,7 @@ protocol TodosPresenterProtocol: AnyObject {
     func pushCreateOrEditVC(id: Int64?)
     func didAddedTodo(id: Int64)
     func deleteTodo(todo: TodoCellData)
+    func filterCells(cells: [TodoCellData], searchText: String) -> [TodoCellData]
 }
 
 final class TodosPresenter {
@@ -70,6 +71,14 @@ extension TodosPresenter: TodosPresenterProtocol {
             todos.remove(at: index)
         }
         view?.prepareDataForCells(todos: todos)
+    }
+    
+    func filterCells(cells: [TodoCellData], searchText: String) -> [TodoCellData] {
+        if searchText.isEmpty {
+            return cells
+        } else {
+            return todos.filter { $0.item.todo.localizedCaseInsensitiveContains(searchText)}
+        }
     }
     
 }
