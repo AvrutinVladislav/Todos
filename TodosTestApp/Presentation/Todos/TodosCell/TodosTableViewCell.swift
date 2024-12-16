@@ -111,16 +111,15 @@ private extension TodosTableViewCell {
         
         todoTextView.anchor(top: titleLabel.bottomAnchor,
                             leading: contentView.safeAreaLayoutGuide.leadingAnchor,
-                            bottom: dateLabel.topAnchor,
+                            bottom: nil,
                             trailing: contentView.safeAreaLayoutGuide.trailingAnchor,
-                            padding: .init(top: 6, left: 52, bottom: -5, right: -20))
+                            padding: .init(top: 6, left: 52, bottom: 0, right: -20))
         
         dateLabel.anchor(top: todoTextView.bottomAnchor,
                          leading: contentView.safeAreaLayoutGuide.leadingAnchor,
                          bottom: contentView.safeAreaLayoutGuide.bottomAnchor,
                          trailing: contentView.safeAreaLayoutGuide.trailingAnchor,
-                         padding: .init(top: 6, left: 52, bottom: -10, right: 0),
-                         size: .init(width: contentView.frame.width, height: 20))
+                         padding: .init(top: 6, left: 52, bottom: -10, right: 0))
     }
     
     func convertDateToStrng(date: Date) -> String {
