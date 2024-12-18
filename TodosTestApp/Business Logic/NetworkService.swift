@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: Error, Equatable {
     case responceError(Error)
     case invalidateURL
     case decodeError
@@ -25,6 +25,20 @@ enum NetworkError: Error {
             return ""
         }
     }
+    
+    static func == (lhs: NetworkError, rhs: NetworkError) -> Bool {
+            switch (lhs, rhs) {
+            case (.invalidateURL, .invalidateURL),
+                 (.decodeError, .decodeError),
+                 (.invalidateData, .invalidateData):
+                return true
+            case (.responceError(let lhsError), .responceError(let rhsError)):
+                return (lhsError as NSError).domain == (rhsError as NSError).domain &&
+                       (lhsError as NSError).code == (rhsError as NSError).code
+            default:
+                return false
+            }
+        }
 }
 
 protocol NetworkService {
