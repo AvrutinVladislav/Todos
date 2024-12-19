@@ -38,6 +38,7 @@
 		57D0FFFC2C81F53E0058FD67 /* Button+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57D0FFFB2C81F53E0058FD67 /* Button+Extension.swift */; };
 		57E9100A2D12B52A00D588A0 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E910092D12B52A00D588A0 /* MockNetworkService.swift */; };
 		57E910102D12B6F700D588A0 /* NetworkServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E9100F2D12B6F700D588A0 /* NetworkServiceTest.swift */; };
+		57E910122D12DCD900D588A0 /* CoreDataManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E910112D12DCD900D588A0 /* CoreDataManagerTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		57D0FFFB2C81F53E0058FD67 /* Button+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extension.swift"; sourceTree = "<group>"; };
 		57E910092D12B52A00D588A0 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkService.swift; sourceTree = "<group>"; };
 		57E9100F2D12B6F700D588A0 /* NetworkServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTest.swift; sourceTree = "<group>"; };
+		57E910112D12DCD900D588A0 /* CoreDataManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 				57E910082D12B50A00D588A0 /* Mock Data */,
 				57D0FF9B2C7CC92E0058FD67 /* TodosTestAppTests.swift */,
 				57E9100F2D12B6F700D588A0 /* NetworkServiceTest.swift */,
+				57E910112D12DCD900D588A0 /* CoreDataManagerTest.swift */,
 			);
 			path = TodosTestAppTests;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 			files = (
 				57E910102D12B6F700D588A0 /* NetworkServiceTest.swift in Sources */,
 				57E9100A2D12B52A00D588A0 /* MockNetworkService.swift in Sources */,
+				57E910122D12DCD900D588A0 /* CoreDataManagerTest.swift in Sources */,
 				57D0FF9C2C7CC92E0058FD67 /* TodosTestAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
